@@ -1,7 +1,9 @@
 import spacy
 
 nlp=spacy.load("en_office_prediction")
-
-doc=nlp("[singing] Shall I play for you? Pa rum pump um pum [Imitates heavy drumming] I have no gifts for you. Pa rum pump um pum [Imitates heavy drumming]")
+nlp2=spacy.load("en_office_prediction-0.0.2")
+doc=nlp("That's what she said!")
+doc2=nlp2("That's what she said!")
 
 print(doc.cats)
+print(doc2.cats)
