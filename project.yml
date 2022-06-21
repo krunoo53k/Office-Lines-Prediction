@@ -7,7 +7,7 @@ vars:
   # custom tokenizer settings in config.cfg
   lang: "en"
   # Set your GPU ID, -1 is CPU
-  gpu_id: 1
+  gpu_id: -1
   version: "0.0.0"
   train: "data.train.jsonl"
   dev: "data.valid.jsonl"

@@ -1,0 +1,63 @@
+convert:
+  cmd: python -m spacy run convert
+  script:
+    - python scripts/convert.py en assets/data.train.jsonl corpus/train.spacy
+    - python scripts/convert.py en assets/data.valid.jsonl corpus/dev.spacy
+  deps:
+    - path: assets/data.train.jsonl
+      md5: 03df3faaaa5788935e81c7641ea17643
+    - path: assets/data.valid.jsonl
+      md5: 4a170a394697165cff86f6f5c28e84e5
+    - path: scripts/convert.py
+      md5: 703ed577b019b545338a3d1c5b6b3e5c
+  outs:
+    - path: corpus/train.spacy
+      md5: 157b2c6dce37e06d4f252f4c7f1d8221
+    - path: corpus/dev.spacy
+      md5: cea138fa6d28ae42691b8772c3747727
+  spacy_version: 3.3.1
+  spacy_git_version: 5fb597f77
+train:
+  cmd: python -m spacy run train
+  script:
+    - python -m spacy train configs/config.conf --output training/ --paths.train corpus/train.spacy
+      --paths.dev corpus/dev.spacy --nlp.lang en --gpu-id -1
+  deps:
+    - path: configs/config.conf
+      md5: 37dae4726a9e88d7c01deed83c99e603
+    - path: corpus/train.spacy
+      md5: 157b2c6dce37e06d4f252f4c7f1d8221
+    - path: corpus/dev.spacy
+      md5: cea138fa6d28ae42691b8772c3747727
+  outs:
+    - path: training/model-best
+      md5: a5b1a5f777b422b3b31fe2302612db3c
+  spacy_version: 3.3.1
+  spacy_git_version: 5fb597f77
+evaluate:
+  cmd: python -m spacy run evaluate
+  script:
+    - python -m spacy evaluate training/model-best corpus/dev.spacy --output training/metrics.json
+  deps:
+    - path: corpus/dev.spacy
+      md5: cea138fa6d28ae42691b8772c3747727
+    - path: training/model-best
+      md5: a5b1a5f777b422b3b31fe2302612db3c
+  outs:
+    - path: training/metrics.json
+      md5: 5ea7e4f27e7b953d10c2fb563dec90d1
+  spacy_version: 3.3.1
+  spacy_git_version: 5fb597f77
+package:
+  cmd: python -m spacy run package
+  script:
+    - python -m spacy package training/model-best packages --name office_line --version
+      0.0.0 --force
+  deps:
+    - path: training/model-best
+      md5: a5b1a5f777b422b3b31fe2302612db3c
+  outs:
+    - path: packages/en_office_line-0.0.0/dist/en_office_line-0.0.0.tar.gz
+      md5: dc9047a8874633e2bf4cb088dc1eab6a
+  spacy_version: 3.3.1
+  spacy_git_version: 5fb597f77

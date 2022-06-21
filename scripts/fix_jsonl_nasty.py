@@ -1,10 +1,21 @@
 import re
 
-f=open("lines.jsonl")
+characters = ["Michael", "Jim", "Dwight", "Angela", "Kelly"]
 
-output = open("data.jsonl","x")
-for line in f:
-    line= line.replace('"cats":"",','"cats":{')
-    line= line.replace("}","}}")
-    output.write(line)
+for character in characters:
+    
+    f=open(f'jsonl/{character}-lines.jsonl')
+    
+    output = open(f'data/{character}-lines.jsonl',"x")
+    for line in f:
+        line= line.replace('"cats":"",','"cats":{')
+        line= line.replace("}","}}")
+        
+        line = line.replace("\" ", "\"")
+        line = line.replace("\" ", "\"")
+        
+        line = line.replace(" \"", "\"")
+        line = line.replace(" \"", "\"")
+        line = line.replace(" \"", "\"")
+        output.write(line)
 

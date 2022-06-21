@@ -1,9 +1,10 @@
 {
   "labels":[
     "Michael",
-    "Dwight",
     "Jim",
-    "Pam"
+    "Dwight",
+    "Angela",
+    "Kelly"
   ],
   "threshold":0.5,
   "positive_label":null
